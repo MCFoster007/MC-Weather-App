@@ -52,7 +52,7 @@ class HistoryService {
         const newCity = new City(city, uuidv4()); 
         return [...cities, newCity]; 
       })
-      .then((updatedCities) => this.write(updatedCities)) /
+      .then((updatedCities) => this.write(updatedCities)) 
       .then(() => new City(city, uuidv4())); 
   }
 }
