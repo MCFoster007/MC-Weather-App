@@ -1,15 +1,15 @@
 import { Router, type Request, type Response } from 'express';
 const router = Router();
 
-import HistoryService from '../../service/historyService.js';
-import WeatherService from '../../service/weatherService.js';
+// import HistoryService from '../../service/historyService.js';
+// import WeatherService from '../../service/weatherService.js';
 
 // TODO: POST Request with city name to retrieve weather data
-import express, { Request, Response } from 'express';
+// import express, { Request, Response } from 'express';
 import fs from 'fs';
 import axios from 'axios'; 
 
-const router = express.Router();
+const router = express.Router(_dirname + '/public');
 
 router.post('/', async (req: Request, res: Response) => {
   const cityName = req.body.city; 
@@ -36,7 +36,8 @@ router.post('/', async (req: Request, res: Response) => {
 
       const searchHistory = JSON.parse(data);
       // Add the city to the search history
-      searchHistory.push({ city: cityName, id: generateUniqueId() }); // You need to implement generateUniqueId()
+      searchHistory.push({ city: cityName, id: generateUniqueId() }); // You need 
+         to implement generateUniqueId()
       
       // Write updated search history back to the file
       fs.writeFile(searchHistoryPath, JSON.stringify(searchHistory), (err) => {
@@ -55,12 +56,16 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-export default router;
+
 
 // TODO: GET search history
-router.get('/history', async (req: Request, res: Response) => {});
+router.get('/history', async (_req: Request, _res: Response) => {});
 
 // * BONUS TODO: DELETE city from search history
-router.delete('/history/:id', async (req: Request, res: Response) => {});
+router.delete('/history/:id', async (_req: Request, _res: Response) => {});
 
 export default router;
+function generateUniqueId() {
+  throw new Error('Function not implemented.');
+}
+

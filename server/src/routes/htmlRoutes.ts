@@ -13,12 +13,19 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/weather', async (req, res) => {
-    const { lat, lon } = req.query; // Get latitude and longitude from query parameters
+// Define route to serve index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+});
+
+app.get('/weather', async (_req, res) => {
+    const cityName = _req.query.city; // Get city name from query parameters
     const apiKey = process.env.OPENWEATHER_API_KEY;
 
     try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`);
+        const response = await 
+         axios.get(`https://api.openweathermap.org/data/2.5/forecast? 
+             q=${cityName}&appid=${apiKey}`);
         res.json(response.data); // Send the weather data as JSON response
     } catch (error) {
         console.error(error);
@@ -29,6 +36,5 @@ app.get('/weather', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
-// TODO: Define route to serve index.html
 
 export default router;
