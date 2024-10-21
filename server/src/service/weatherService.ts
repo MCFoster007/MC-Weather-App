@@ -74,7 +74,7 @@ class WeatherService {
   }
   
   // TODO: Create fetchAndDestructureLocationData method
-  private async fetchAndDestructureLocationData(geolocation: any): Promise<{ latitude: number; longitude: number; }> {
+  private async fetchAndDestructureLocationData(geolocation: any): Promise<{ latitude: number; longitude: number; } {
     const { coord } = geolocation; 
     return {
         latitude: coord.lat,
@@ -104,9 +104,32 @@ private async fetchWeatherData(coordinates: { lat: number; lon: number }): Promi
   }
 }
   // TODO: Build parseCurrentWeather method
-  private parseCurrentWeather(response: any) {}
+  private async parseCurrentWeather(response: any) {
+    const currentWeatherCodes = await this.read(); 
+    const parsedCurrentWeatherCodes = JSON.parse(currentWeatherCodes);
+    
+    const foundGeoLocation = parsedCurrentWeatherCodes.filter((responseObject: ResponseObject) => {
+        return responseObject.currentWeather.toLowerCase() === response.toLowerCase();
+    });
+
+    if (foundGeoLocation.length > 0) {
+        const weatherCodes = foundGeoLocation[0].weatherCodes;
+        return weatherCodes;
+    } else {
+        throw new Error("Weather not found");
+    }
+}
   // TODO: Complete buildForecastArray method
-  private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
+  function buildForecastArray(periods: number, baseValue: number, trend: number): number[] {
+    const forecastArray: number[] = [];
+  
+    for (let i = 0; i < periods; i++) {
+      const forecastValue = baseValue + (i + 1) * trend;
+      forecastArray.push(forecastValue);
+    }
+  
+    return forecastArray;
+  }
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string) {}
 }
