@@ -122,14 +122,18 @@ private async fetchWeatherData(coordinates: { lat: number; lon: number }): Promi
   // TODO: Complete buildForecastArray method
   function buildForecastArray(periods: number, baseValue: number, trend: number): number[] {
     const forecastArray: number[] = [];
-  
+    const forecast = buildForecastArray(5, 100, 10);
+    console.log(forecast); 
     for (let i = 0; i < periods; i++) {
-      const forecastValue = baseValue + (i + 1) * trend;
-      forecastArray.push(forecastValue);
+        const forecastValue = baseValue + (i + 1) * trend;
+        forecastArray.push(forecastValue);
     }
   
     return forecastArray;
-  }
+}
+const forecast = buildForecastArray(5, 100, 10);
+console.log(forecast);
+
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string) {}
 }
