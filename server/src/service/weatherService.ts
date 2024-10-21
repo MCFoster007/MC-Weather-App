@@ -72,21 +72,37 @@ class WeatherService {
       const query = `${baseUrl}?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
       return query;
   }
-  }
+  
   // TODO: Create fetchAndDestructureLocationData method
-  private async fetchAndDestructureLocationData(locationData: any): coordinates {
-      const { coord } = locationData; 
-      return {
+  private async fetchAndDestructureLocationData(geolocation: any): Promise<{ latitude: number; longitude: number; }> {
+    const { coord } = geolocation; 
+    return {
         latitude: coord.lat,
         longitude: coord.lon,
-      };
-    }
-  }
-  }
-  // TODO: Create fetchWeatherData method
-  private async fetchWeatherData(coordinates: Coordinates) {
+    };
+}
 
+// TODO: Create fetchWeatherData method
+private async fetchWeatherData(coordinates: { lat: number; lon: number }): Promise<Coordinates || null> {
+  try {
+      const response = await fetch(
+          `${this.baseURL}/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}`
+      );
+
+      const fetchweatherdata = await response.json();
+      
+   
+      if (fetchweatherdata.coordinates) {
+          return this.fetchAndDestructureLocationData(fetchweatherdata);
+      } else {
+          console.error('No coordinates found');
+          return null;
+      }
+  } catch (err: any) {
+      console.log('Error:', err);
+      return null; 
   }
+}
   // TODO: Build parseCurrentWeather method
   private parseCurrentWeather(response: any) {}
   // TODO: Complete buildForecastArray method
