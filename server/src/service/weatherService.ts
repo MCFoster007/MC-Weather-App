@@ -28,42 +28,42 @@ class WeatherService {
     this.cityName = cityName;
   }
 
-  // Create fetchLocationData method
-  private async fetchLocationData(query: string): Promise<Coordinates | null> {
-    try {
-      const response = await fetch(
-        `${this.baseURL}/weather?q=${query}&appid=${this.apiKey}`
-      );
+//   // Create fetchLocationData method
+//   private async fetchLocationData(query: string): Promise<Coordinates | null> {
+//     try {
+//       const response = await fetch(
+//         `${this.baseURL}/weather?q=${query}&appid=${this.apiKey}`
+//       );
 
-      // Check if OK (status code 200)
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+//       // Check if OK (status code 200)
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
 
-      const data = await response.json();
-      return this.destructureLocationData(data);
-    } catch (err) {
-      console.log('Error:', err);
-      return null; 
-    }
-  }
+//       const data = await response.json();
+//       return this.destructureLocationData(data);
+//     } catch (err) {
+//       console.log('Error:', err);
+//       return null; 
+//     }
+//   }
 
-  // Create destructureLocationData method
-  private destructureLocationData(locationData: any): Coordinates {
-    const { coord } = locationData; 
-    return {
-      latitude: coord.lat,
-      longitude: coord.lon,
-    };
-  }
-}
- // Create buildGeocodeQuery method
- private async function buildGeocodeQuery(address: string): Promise<string> {
-  const baseUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
-  const apiKey = '.env.API_KEY'; 
-  const query = `${baseUrl}?address=${encodeURIComponent(address)}&key=${apiKey}`;
-  return query;
-}
+//   // Create destructureLocationData method
+//   private destructureLocationData(locationData: any): Coordinates {
+//     const { coord } = locationData; 
+//     return {
+//       latitude: coord.lat,
+//       longitude: coord.lon,
+//     };
+//   }
+// }
+//  // Create buildGeocodeQuery method
+//  private async function buildGeocodeQuery(address: string): Promise<string> {
+//   const baseUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
+//   const apiKey = '.env.API_KEY'; 
+//   const query = `${baseUrl}?address=${encodeURIComponent(address)}&key=${apiKey}`;
+//   return query;
+// }
   // TODO: Create buildWeatherQuery method
   private async function buildWeatherQuery(coordinates: Coordinates): Promise<string> {
       const baseUrl = 'https://api.openweathermap.org/data/2.5/forecast';
@@ -73,14 +73,14 @@ class WeatherService {
       return query;
   }
   
-  // TODO: Create fetchAndDestructureLocationData method
-  private async fetchAndDestructureLocationData(geolocation: any): Promise<{ latitude: number; longitude: number; } {
-    const { coord } = geolocation; 
-    return {
-        latitude: coord.lat,
-        longitude: coord.lon,
-    };
-}
+//   // TODO: Create fetchAndDestructureLocationData method
+//   private async fetchAndDestructureLocationData(geolocation: any): Promise<{ latitude: number; longitude: number; } {
+//     const { coord } = geolocation; 
+//     return {
+//         latitude: coord.lat,
+//         longitude: coord.lon,
+//     };
+// }
 
 // TODO: Create fetchWeatherData method
 private async fetchWeatherData(coordinates: { lat: number; lon: number }): Promise<Coordinates || null> {
@@ -135,7 +135,26 @@ const forecast = buildForecastArray(5, 100, 10);
 console.log(forecast);
 
   // TODO: Complete getWeatherForCity method
-  async getWeatherForCity(city: string) {}
+  async getWeatherForCity(city: string) {
+    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=lat={lat}&lon={lon}&appid={API key}&units=imperial`;
+
+async function getWeather() {
+  const response = await fetch(apiURL);
+  const weatherData = await response.json();
+  const cityName = weatherData.cityname;
+  const temperature = weatherData.main.temp;
+  document.getElementById("cityname").innerText = cityName;
+  document.getElementById("date").innerText = date;
+  document.getElementById("icon").innerText = icon;
+  document.getElementById("iconDescription").innerText = iconDescription;
+  document.getElementById("tempF").innerText = temperature + "°F";
+  document.getElementById("windSpeed").innerText = windSpeed;
+  document.getElementById("humidity").innerText = humidity;
+
+}
+
+getWeather();
+  }
 }
 
 export default new WeatherService();
