@@ -136,25 +136,29 @@ console.log(forecast);
 
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string) {
-    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=lat={lat}&lon={lon}&appid={API key}&units=imperial`;
+    const apiKey = '6a9541ec91fc0c34242b681021c81640'; 
+    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=imperial`;
 
-async function getWeather() {
-  const response = await fetch(apiURL);
-  const weatherData = await response.json();
-  const cityName = weatherData.cityname;
-  const temperature = weatherData.main.temp;
-  document.getElementById("cityname").innerText = cityName;
-  document.getElementById("date").innerText = date;
-  document.getElementById("icon").innerText = icon;
-  document.getElementById("iconDescription").innerText = iconDescription;
-  document.getElementById("tempF").innerText = temperature + "°F";
-  document.getElementById("windSpeed").innerText = windSpeed;
-  document.getElementById("humidity").innerText = humidity;
-
-}
-
-getWeather();
+    async function getWeather() {
+      const response = await fetch(apiURL);
+      const weatherData = await response.json();
+  
+      if (response.ok) {
+          const cityName = weatherData.city.name; 
+          const temperature = weatherData.list[0].main.temp; 
+          const windSpeed = weatherData.list[0].wind.speed; 
+          const humidity = weatherData.list[0].main.humidity; 
+  
+          document.getElementById("cityname").innerText = cityName;
+          document.getElementById("temperature").innerText = temperature + "°F";
+          document.getElementById("wind").innerText = windSpeed + " mph"; // Corrected here
+          document.getElementById("humidity").innerText = humidity + "%";
+      } else {
+          console.error("Error fetching weather data:", weatherData.message);
+      }
   }
-}
+  
+  getWeather();
 
-export default new WeatherService();
+export default new WeatherService()
+
