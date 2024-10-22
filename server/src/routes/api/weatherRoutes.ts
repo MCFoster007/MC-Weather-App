@@ -36,8 +36,8 @@ router.post('/', async (req: Request, res: Response) => {
 
       const searchHistory = JSON.parse(data);
       // Add the city to the search history
-      searchHistory.push({ city: cityName, id: generateUniqueId() }); // You need 
-         to implement generateUniqueId()
+      searchHistory.push({ city: cityName, id: generateUniqueId() });
+         generateUniqueId()
       
       // Write updated search history back to the file
       fs.writeFile(searchHistoryPath, JSON.stringify(searchHistory), (err) => {
