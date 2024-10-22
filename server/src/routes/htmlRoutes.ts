@@ -14,7 +14,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Define route to serve index.html
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
