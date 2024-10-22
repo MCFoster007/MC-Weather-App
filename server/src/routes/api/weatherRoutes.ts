@@ -29,19 +29,20 @@ router.post('/', async (req: Request, res: Response) => {
       const weatherData = weatherResponse.data;
 
     // Step 2: Save the city to search history
-    const searchHistoryPath = 'path/to/searchHistory.json';
-    fs.readFile(searchHistoryPath, 'utf8', (err: null, data: string) => {
+    const searchHistoryPath = 'searchHistory.json';
+    fs.readFile(searchHistoryPath, 'utf8', (err: NodeJS.ErrnoException | null, data: string) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ error: 'Error reading search history' });
       }
+
 
       const searchHistory = JSON.parse(data);
       // Add the city to the search history
       searchHistory.push({ city: cityName, id: generateUniqueId() });
       
  
-      
+
       fs.writeFile(searchHistoryPath, JSON.stringify(searchHistory), (err: any) => {
         if (err) {
           console.error(err);
