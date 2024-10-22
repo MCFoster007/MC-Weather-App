@@ -1,5 +1,5 @@
 import { Router, type Request, type Response } from 'express';
-const router = Router();
+// const router = Router();
 
 // import HistoryService from '../../service/historyService.js';
 // import WeatherService from '../../service/weatherService.js';
@@ -9,14 +9,15 @@ const router = Router();
 import fs from 'fs';
 import axios from 'axios'; 
 
-const router = express.Router(_dirname + '/public');
+const router = express.Router('_dirname' + '/public');
 
 router.post('/', async (req: Request, res: Response) => {
   const cityName = req.body.city; 
 
   try {
     
-    const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}`, {
+    const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon= 
+       {lon}&appid={API key}`, {
       params: {
         q: cityName,
         appid: '6a9541ec91fc0c34242b681021c81640',
@@ -40,14 +41,15 @@ router.post('/', async (req: Request, res: Response) => {
          generateUniqueId()
       
       // Write updated search history back to the file
-      fs.writeFile(searchHistoryPath, JSON.stringify(searchHistory), (err) => {
-        if (err) {
+      fs.writeFile(searchHistoryPath, JSON.stringify(searchHistory), 
+            {
+            if (err: any) {
           console.error(err);
           return res.status(500).json({ error: 'Error saving search history' });
-        }
+         }
 
         // Step 3: Return weather data as JSON response
-        res.json(weatherData);
+         res.json(weatherData),
       });
     });
   } catch (error) {

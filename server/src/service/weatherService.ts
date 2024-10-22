@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import fs from 'node:fs/promises';;
+// import fs from 'node:fs/promises';
 dotenv.config();
 
 // TODO: Define an interface for the Coordinates object
@@ -10,30 +10,30 @@ interface Coordinates {
 
 
 // TODO: Define a class for the Weather object
-class Weather{
-  city: string;
+class Weather {
+  cityName: string;
   date: string;
-  icon: string;
+  iconId: string;
   iconDescription: string;
   tempF: number;
   windSpeed: number;
   humidity: number;
-  constructor(
-    city: string,
+  constructor (
+    cityName: string,
     date: string,
-    icon: string,
+    iconId: string,
     iconDescription: string,
     tempF: number,
     windSpeed: number,
     humidity: number,
   ){
-this.city = city;
-this.date = date;
-this.icon = icon;
-this.iconDescription = iconDescription;
-this.tempF =tempF;
-this.windSpeed = windSpeed;
-this.humidity = humidity;
+   this.cityName = cityName;
+    this.date = date;
+    this.iconId = iconId;
+    this.iconDescription = iconDescription;
+    this.tempF =tempF;
+    this.windSpeed = windSpeed;
+    this.humidity = humidity;
   }
 
 }
@@ -41,7 +41,7 @@ this.humidity = humidity;
 class WeatherService {
   private baseURL: string; 
   private apiKey: string; 
-  private cityName = ""
+  private cityName = "";
 
   
   
@@ -137,13 +137,11 @@ return `${this.baseURL}/geo/1.0/direct?q=${this.cityName}&limit=1&appid=${this.a
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string) {
     this.cityName = city
- let coordinates= this.fetchAndDestructureLocationData()
-
-
-         
+ let coordinates= this.fetchAndDestructureLocationData();
+  console.log((await coordinates).latitude, (await coordinates).longitude);      
   }
-  }
-  
+}
+
 
 
 export default new WeatherService()

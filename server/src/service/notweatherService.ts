@@ -24,7 +24,7 @@ class Weather {
 
     windSpeed: number,
 
-    humidity: number
+    humidity: number,
   ) {
     this.cityName = cityName;
     this.date = date;
