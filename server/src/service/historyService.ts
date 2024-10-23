@@ -14,6 +14,7 @@ class City {
 }
 // TODO: Complete the HistoryService class
 class HistoryService {
+  getHistory: any;
   // TODO: Define a read method that reads from the searchHistory.json file
   private async read() {
     return await fs.readFile('searchHistory.json', {
@@ -39,7 +40,7 @@ class HistoryService {
   }
 
   // Define an addCity method that adds a city to the searchHistory.json file
-  async addCity(city: string) {
+  async addCity(city: string, uniqueId: number) {
     if (!city) {
       throw new Error('city must be defined');
     }
