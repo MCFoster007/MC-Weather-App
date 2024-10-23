@@ -40,7 +40,7 @@ class HistoryService {
   }
 
   // Define an addCity method that adds a city to the searchHistory.json file
-  async addCity(city: string, uniqueId: number) {
+  async addCity(city: string, _uniqueId: number) {
     if (!city) {
       throw new Error('city must be defined');
     }
