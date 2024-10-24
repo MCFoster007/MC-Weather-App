@@ -20,24 +20,24 @@ import historyService from '../../service/historyService';
 //     res.status(500).json({ error: 'Error fetching weather data' });
 //   };
 const router = Router();
-function generateUniqueId() {
-  return Date.now(); 
-}
+// function generateUniqueId() {
+//   return Date.now(); 
+// }
 
 // TODO: POST Request with city name to retrieve weather data
 router.post('/', async (req: Request, res: Response) => {
-  const cityName = req.body.city; 
+  const city = req.body.city; 
 
   try {
     // Add city to history with a unique ID
-    const uniqueId = generateUniqueId();
-    await historyService.addCity({ id: uniqueId, name: cityName });
+    // const uniqueId = generateUniqueId();
+    await historyService.addCity( city);
      
       
       // Fetch weather data
       const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather`, {
         params: {
-          q: cityName,
+          q: city,
           appid: '6a9541ec91fc0c34242b681021c81640',
           units: 'imperial' 
         }
