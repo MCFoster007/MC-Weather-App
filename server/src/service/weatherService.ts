@@ -9,7 +9,7 @@ interface Coordinates {
 // TODO: Define a class for the Weather object
 class Weather {
   cityName: string;
-  date: string;
+  date: number;
   iconId: string;
   iconDescription: string;
   tempF: number;
@@ -17,7 +17,7 @@ class Weather {
   humidity: number;
   constructor(
     cityName: string,
-    date: string,
+    date: number,
 
     iconId: string,
 
@@ -109,13 +109,27 @@ async fetchWeatherData() {
 
 
   // TODO: Build parseCurrentWeather method
-  async  parseCurrentWeather(response: any) {
-  
-    const currentWeather:  new () => Weather =   
-      (this.parseCurrentWeather)(
-      response.list[0])
-    return currentWeather;
+  async parseCurrentWeather(response: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      try {
+        const currentWeather = JSON.parse(response); 
+        resolve(currentWeather);
+      } catch (error) {
+        reject(error);
+      }
+    });
+    // // const weatherToParse = '{"name": "cityName"}'; 
+    // parseCurrentWeather(weatherToParse)
+    // .then((parsedWeather) => {
+    //   console.log("Parsed Weather:", parsedWeather);
+    // })
+    // .catch((error) => {
+    //   console.error("Parsing error:", error);
+    // });
   }
+  
+  
+
 
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string) {
@@ -127,3 +141,11 @@ async fetchWeatherData() {
 
 
 export default new WeatherService();
+// function reject(error: unknown) {
+//   throw new Error("Function not implemented.");
+// }
+
+// function getWeatherForCity(city: any, string: any) {
+//   throw new Error("Function not implemented.");
+// }
+
