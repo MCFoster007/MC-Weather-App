@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+console.log(__dirname);
 const router = Router();
 dotenv.config();
 

@@ -2,10 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // TODO: Define an interface for the Coordinates object
-interface Coordinates {
-  latitude: number;
-  longitude: number;
-}
+
 // TODO: Define a class for the Weather object
 class Weather {
   cityName: string;
@@ -18,16 +15,11 @@ class Weather {
   constructor(
     cityName: string,
     date: number,
-
     iconId: string,
-
     iconDescription: string,
-
     tempF: number,
-
     windSpeed: number,
-
-    humidity: number,
+    humidity: number
   ) {
     this.cityName = cityName;
     this.date = date;
@@ -47,98 +39,76 @@ class WeatherService {
   private cityName = "";
   constructor() {
     // this.baseURL = "https://api.openweathermap.org/data/2.5/forecast?";
-    this.baseURL = process.env.BASE_URL || '';
+    this.baseURL = process.env.BASE_URL || "";
     this.apiKey = process.env.API_KEY || "";
   }
   // TODO: Create fetchLocationData method
-  async fetchLocationData(query: string): Promise<Coordinates | null> {
+  async fetchLocationData(query: string) {
     try {
       const response = await fetch(query);
-  
+
       // Check if OK (status code 200)
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-  
+
       const data = await response.json();
       return data[0];
     } catch (err) {
-      console.log('Error:', err);
-      return null; 
+      console.log("Error:", err);
+      return null;
     }
   }
+//********MARY STUCK HERE */
+  async buildWeatherQuery(city): string {
+    this.cityName =city
+    const baseUrl = "https://api.openweathermap.org/data/2.5/forecast";
 
-
-
-  // TODO: Create destructureLocationData method
-  async destructureLocationData(locationData: any): Promise<Coordinates> {
-    const { lat, lon } = locationData; 
-    return {
-      latitude: lat,
-      longitude: lon,
-    };
-  }
-
-
-  async buildWeatherQuery(coordinates: Coordinates) {
-    const baseUrl = 'https://api.openweathermap.org/data/2.5/forecast';
-    const { latitude, longitude } = coordinates;
-    const query = `${baseUrl}?lat=${latitude}&lon=${longitude}&appid=${this.apiKey}`;
+    const query = `${baseUrl}?${this.cityName}&appid=${this.apiKey}`;
 
     return query;
   }
 
-// TODO: Create fetchWeatherData method
-async fetchWeatherData() {
-  try {
-    const response = await fetch(this.baseURL);
-    const fetchweatherdata = await response.json();
+  // TODO: Create fetchWeatherData method
+  async fetchWeatherData(city: string) {
+    try {
+      const response = await fetch(this.buildWeatherQuery(city)).then((res) => {
+        res.json().catch((error)=>{console.log(error)})
+      });
 
-    if (fetchweatherdata) {
-      const currentWeather:  Weather = this.parseCurrentWeather = fetchweatherdata;
+     //********MARY STUCK HERE */
+      const currentWeather: Weather = this.parseCurrentWeather(response.list[0]);
       console.log(currentWeather);
-    } else {
-      console.error("No data found");
-      return fetchweatherdata;
+      return currentWeather;
+    } catch (err: any) {
+      console.log("Error:", err);
+      return null;
     }
-  } catch (err: any) {
-    console.log("Error:", err);
-    return null;
   }
-}
 
+  private parseCurrentWeather(response: any) {
+   
 
-  // TODO: Build parseCurrentWeather method
-  async parseCurrentWeather(response: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      try {
-        const currentWeather = JSON.parse(response); 
-        resolve(currentWeather);
-      } catch (error) {
-        reject(error);
-      }
-    });
-    // // const weatherToParse = '{"name": "cityName"}'; 
-    // parseCurrentWeather(weatherToParse)
-    // .then((parsedWeather) => {
-    //   console.log("Parsed Weather:", parsedWeather);
-    // })
-    // .catch((error) => {
-    //   console.error("Parsing error:", error);
-    // });
+    const currentWeather = new Weather(
+      this.cityName,
+       1,
+      response.main.temp,
+      response.wind.speed,
+      response.main.humidity,
+      response.weather[0].icon,
+      response.weather[0].description || response.weather[0].main
+    );
+
+    return currentWeather;
   }
-  
-  
-
 
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string) {
-    this.cityName = city
- let coordinates= this.destructureLocationData(this.cityName);
-  console.log((await coordinates).latitude, (await coordinates).longitude);      
+    this.cityName = city;
+    const weather = await this.fetchWeatherData(cityName);
+    return weather;
   }
 }
-
 
 export default new WeatherService();
 // function reject(error: unknown) {
@@ -148,4 +118,3 @@ export default new WeatherService();
 // function getWeatherForCity(city: any, string: any) {
 //   throw new Error("Function not implemented.");
 // }
-
