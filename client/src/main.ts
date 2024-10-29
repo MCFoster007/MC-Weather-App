@@ -51,7 +51,7 @@ const fetchWeather = async (cityName: string) => {
 
   console.log('weatherData: ', weatherData);
 
-  renderCurrentWeather(weatherData[0]);
+  renderCurrentWeather(weatherData);
   renderForecast(weatherData.slice(1));
 };
 

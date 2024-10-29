@@ -2,5 +2,17 @@
 	{
 		"name": "dallas",
 		"id": "dca75014-bb89-4e46-a74c-6b1b572708db"
+	},
+	{
+		"name": "orlando",
+		"id": "905c0a65-af41-4b62-b689-f5069eb8ad6a"
+	},
+	{
+		"name": "miami",
+		"id": "b8fe2f9d-4380-41b7-8dad-586a66cf97cd"
+	},
+	{
+		"name": "houston",
+		"id": "348e284d-632e-4add-b9ee-4b196078ecc5"
 	}
 ]

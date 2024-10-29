@@ -39,8 +39,9 @@ class WeatherService {
   private cityName = "";
   constructor() {
     // this.baseURL = "https://api.openweathermap.org/data/2.5/forecast?";
-    this.baseURL = process.env.BASE_URL || "";
+    this.baseURL = process.env.API_BASE_URL || "";
     this.apiKey = process.env.API_KEY || "";
+    console.log(this.baseURL)
   }
   // TODO: Create fetchLocationData method
   async fetchLocationData(query: string) {
@@ -60,26 +61,56 @@ class WeatherService {
     }
   }
 //********MARY STUCK HERE */
-  async buildWeatherQuery(city): string {
+  buildWeatherQuery(city:string): string {
     this.cityName =city
-    const baseUrl = "https://api.openweathermap.org/data/2.5/forecast";
+    // const baseUrl = "https://api.openweathermap.org/data/2.5/forecast";
 
-    const query = `${baseUrl}?${this.cityName}&appid=${this.apiKey}`;
+    const query = `${this.baseURL}/data/2.5/forecast?q=${this.cityName}&appid=${this.apiKey}`;
+   
 
     return query;
   }
+  private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
+    const weatherForecast: Weather[] = [currentWeather];
+    console.log(weatherForecast);
+    const filteredWeatherData = weatherData.filter((data: any) => {
+      return data.dt_txt.includes('12:00:00');
+    });
 
+    for (const day of filteredWeatherData) {
+      weatherForecast.push(
+        new Weather(
+          this.cityName,
+          1,
+          day.main.temp,
+          day.wind.speed,
+          day.main.humidity,
+          day.weather[0].icon,
+          day.weather[0].description || day.weather[0].main
+          
+        )
+      );
+    }
+
+    return weatherForecast;
+  }
   // TODO: Create fetchWeatherData method
   async fetchWeatherData(city: string) {
     try {
-      const response = await fetch(this.buildWeatherQuery(city)).then((res) => {
-        res.json().catch((error)=>{console.log(error)})
-      });
-
+      const response: Response =
+      await fetch(this.buildWeatherQuery(city));
+     
+        const res = await response.json();
+   
+console.log(res)
      //********MARY STUCK HERE */
-      const currentWeather: Weather = this.parseCurrentWeather(response.list[0]);
-      console.log(currentWeather);
-      return currentWeather;
+     if (res ) {
+
+      const currentWeather: Weather = this.parseCurrentWeather(res.list[0]);
+      const forecast: Weather[] = this.buildForecastArray(currentWeather,res.list);
+      return forecast;
+     }
+     throw new Error(`no data returned for ${city}`);
     } catch (err: any) {
       console.log("Error:", err);
       return null;
@@ -105,7 +136,7 @@ class WeatherService {
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string) {
     this.cityName = city;
-    const weather = await this.fetchWeatherData(cityName);
+    const weather = await this.fetchWeatherData(this.cityName);
     return weather;
   }
 }
