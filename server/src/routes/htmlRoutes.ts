@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 // Define route to serve index.html
 app.get('/', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../client/index.html'));
+    res.sendFile(path.join(__dirname, '../../../client/dist/index.html'));
 });
 
 app.get('/weather', async (_req, res) => {

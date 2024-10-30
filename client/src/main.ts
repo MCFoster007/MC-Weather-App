@@ -90,10 +90,10 @@ const renderCurrentWeather = (currentWeather: any): void => {
   heading.textContent = `${city} (${date})`;
   weatherIcon.setAttribute(
     'src',
-    `https://openweathermap.org/img/w/10d.png`
+  
 
 
-    // `https://openweathermap.org/img/w/${icon}.png`
+    `https://openweathermap.org/img/w/${icon}.png`
   );
   weatherIcon.setAttribute('alt', iconDescription);
   weatherIcon.setAttribute('class', 'weather-img');
@@ -136,9 +136,9 @@ const renderForecastCard = (forecast: any) => {
   cardTitle.textContent = date;
   weatherIcon.setAttribute(
     'src',
-    `https://openweathermap.org/img/w/10d.png`
 
-    // `https://openweathermap.org/img/w/${icon}.png`
+
+    `https://openweathermap.org/img/w/${icon}.png`
   );
   weatherIcon.setAttribute('alt', iconDescription);
   tempEl.textContent = `Temp: ${tempF} °F`;
