@@ -12,11 +12,13 @@ class City {
   }
 
 }
+/////*************check here****** */
 // TODO: Complete the HistoryService class
 class HistoryService {
   getHistory: any;
   // TODO: Define a read method that reads from the searchHistory.json file
   private async read() {
+  
     return await fs.readFile('db/db.json', {
    encoding: 'utf8',
     });
@@ -28,6 +30,7 @@ class HistoryService {
 
   // Define a getCities method that reads the cities from the searchHistory.json file and returns them as an array of City objects
   async getCities() {
+    
     return await this.read().then((cities) => {
       let parsedCities: City[];
       try {

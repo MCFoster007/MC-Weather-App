@@ -67,12 +67,12 @@ class WeatherService {
 
     const query = `${this.baseURL}/data/2.5/forecast?q=${this.cityName}&appid=${this.apiKey}`;
    
-
+///console log her****
     return query;
   }
   private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
     const weatherForecast: Weather[] = [currentWeather];
-    console.log(weatherForecast);
+    console.log(currentWeather);
     const filteredWeatherData = weatherData.filter((data: any) => {
       return data.dt_txt.includes('12:00:00');
     });

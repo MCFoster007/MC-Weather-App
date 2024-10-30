@@ -28,7 +28,7 @@ app.get('/weather', async (_req, res) => {
         const response = await 
          axios.get(`https://api.openweathermap.org/data/2.5/forecast? 
              q=${cityName}&appid=${apiKey}`);
-        res.json(response.data); // Send the weather data as JSON response
+        res.json(response.data); 
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to fetch weather data' });
