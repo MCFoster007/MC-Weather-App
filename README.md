@@ -33,7 +33,7 @@ Typescript, package.json, tsconfig.json, html and css
   yes you can
 
  ## Testing
-run the npm start in the terminal
+To test the app in the command line: npm run start:dev 
 
 
             
