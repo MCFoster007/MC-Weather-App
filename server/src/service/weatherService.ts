@@ -41,7 +41,7 @@ class WeatherService {
     // this.baseURL = "https://api.openweathermap.org/data/2.5/forecast?";
     this.baseURL = process.env.API_BASE_URL || "";
     this.apiKey = process.env.API_KEY || "";
-    console.log(this.baseURL)
+   
   }
   // TODO: Create fetchLocationData method
   async fetchLocationData(query: string) {
@@ -67,12 +67,12 @@ class WeatherService {
 
     const query = `${this.baseURL}/data/2.5/forecast?q=${this.cityName}&appid=${this.apiKey}`;
    
-///console log her****
+
     return query;
   }
   private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
     const weatherForecast: Weather[] = [currentWeather];
-    console.log(currentWeather);
+    // console.log(currentWeather);
     const filteredWeatherData = weatherData.filter((data: any) => {
       return data.dt_txt.includes('12:00:00');
     });
@@ -82,11 +82,12 @@ class WeatherService {
         new Weather(
           this.cityName,
           1,
+          day.weather[0].icon,
+          day.weather[0].description ,
           day.main.temp,
           day.wind.speed,
           day.main.humidity,
-          day.weather[0].icon,
-          day.weather[0].description || day.weather[0].main
+        
           
         )
       );
@@ -102,8 +103,8 @@ class WeatherService {
      
         const res = await response.json();
    
-console.log(res)
-     //********MARY STUCK HERE */
+
+     
      if (res ) {
 
       const currentWeather: Weather = this.parseCurrentWeather(res.list[0]);
@@ -118,18 +119,19 @@ console.log(res)
   }
 
   private parseCurrentWeather(response: any) {
-   
+   console.log('response', response);
 
     const currentWeather = new Weather(
       this.cityName,
        1,
+       response.weather[0].icon,
+      response.weather[0].description, 
       response.main.temp,
       response.wind.speed,
       response.main.humidity,
-      response.weather[0].icon,
-      response.weather[0].description || response.weather[0].main
+      
     );
-
+console.log('currentWeather', currentWeather);
     return currentWeather;
   }
 

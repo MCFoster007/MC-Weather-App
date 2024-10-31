@@ -46,10 +46,10 @@ const fetchWeather = async (cityName: string) => {
     },
     body: JSON.stringify({ cityName }),
   });
-  console.log(response)
+  // console.log(response)
   const weatherData = await response.json();
 
-  console.log('weatherData: ', weatherData);
+  // console.log('weatherData: ', weatherData);
 
   renderCurrentWeather(weatherData);
   renderForecast(weatherData.slice(1));
@@ -82,9 +82,16 @@ Render Functions
 */
 
 const renderCurrentWeather = (currentWeather: any): void => {
+  console.log(currentWeather);
   const { city, date, icon, iconDescription, tempF, windSpeed, humidity } =
     currentWeather;
-
+    console.log("cityName", city);
+    console.log("date", date);
+    console.log("iconId", icon);
+    console.log("iconDescription", iconDescription);
+    console.log("tempF", tempF);
+    console.log("windSpeed", windSpeed);
+    console.log("humidity", humidity);
   // convert the following to typescript
   //******look here ********/
   heading.textContent = `${city} (${date})`;

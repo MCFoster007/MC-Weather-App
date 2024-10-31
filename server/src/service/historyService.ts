@@ -44,9 +44,7 @@ class HistoryService {
 
   // Define an addCity method that adds a city to the searchHistory.json file
   async addCity(city: string) {
-    console.log('***********')
-    console.log(city)
-    console.log('***********')
+   
     if (!city) {
       throw new Error('city must be defined');
     }
